@@ -13,14 +13,14 @@ module Formtastic
           # stupid fix to be removed
           flag_code = "catalonia" if flag_code == "ca" 
 
-          label = CGI.escapeHTML(self.object.class.human_attribute_name(name)) + " #{template.image_tag "aml/flags/#{flag_code}.png", alt: locale.to_s, title: locale.to_s}"
+          label = args[:label].blank? ? CGI.escapeHTML(self.object.class.human_attribute_name(name)) + " #{template.image_tag "aml/flags/#{flag_code}.png", alt: locale.to_s, title: locale.to_s}" : args[:label]
           if args[:as] == :ckeditor
             prepend = "<h3 style='margin: 10px 0px 0px 10px;'>#{label}</h3>#{'<abbr>*</abbr>' if field.required?}".html_safe
-            args[:label] = false
+            #args[:label] = false
           else
             prepend = ''.html_safe
-            args[:label] = label.html_safe
           end
+          args[:label] = label.html_safe
           args[:required] = field.required?
 
           ret << prepend + lf.input(locale, args)
